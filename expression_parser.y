@@ -1,27 +1,44 @@
 %skeleton "lalr1.cc"
-%require	"3.0"
-%defines
-%define api.namespace {nd}
-%define api.parser.class {ExpressionParser}
-%code requires {
-	namespace nd {
-		class ExpressionScanner;
-	}
-}
+%require	"3.8.2"
+%header
 
-%parse-param { ExpressionScanner& scanner }
-
+%define api.token.constructor
 %define api.value.type variant
 %define parse.assert
 
+%define api.namespace {nd}
+%define api.parser.class {ExpressionParser}
+%code requires {
+	#include <string>
+	namespace nd {
+		class ExpressionDriver;
+	}
+}
+
+%param { nd::ExpressionDriver& driver }
+
+%locations
+
+%define parse.trace
+%define parse.error detailed
+%define parse.lac full
+
+%code {
+#include "expression_driver.hpp"
+}
+
+%define api.token.prefix {TOK_}
 %token <std::string>	ID
 %token <int>					LIT
-%token								OP_PLUS
-%token								OP_TIMES
-%token								PAREN_OP
-%token								PAREN_CL
+%token
+	OP_PLUS		"+"
+	OP_TIMES	"*"
+	PAREN_OP	"("
+	PAREN_CL	")"
+;
 
 %%
+%start expression;
 expression
 	: term OP_PLUS expression
 	| term
