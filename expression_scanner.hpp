@@ -4,17 +4,15 @@
 #include <FlexLexer.h>
 #endif
 
-#include "expression_parser.tab.hpp"
+#include "parser.hh"
 
 namespace nd {
 class ExpressionScanner : public yyFlexLexer {
 public:
   ExpressionScanner(std::istream *in) : yyFlexLexer(in) {};
   virtual ~ExpressionScanner() {};
-  int FlexLexer::yylex(nd::ExpressionScanner::semantic_type *const lval,
-                       nd::ExpressionScanner::location_type *location);
-
-private:
-  nd::ExpressionScanner::semantic_type *yylval = nullptr;
+  using FlexLexer::yylex;
+  virtual int yylex(yy::parser::semantic_type *const lval,
+                       yy::parser::location_type *location);
 };
 } // namespace nd

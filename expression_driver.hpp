@@ -1,5 +1,5 @@
 #pragma once
-#include "expression_parser.hpp"
+#include "expression_parser.tab.hpp"
 #include <istream>
 #include <string>
 

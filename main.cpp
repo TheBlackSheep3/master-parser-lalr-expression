@@ -1,11 +1,12 @@
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 
 #include "config.hpp"
-#include "expression_driver.hpp"
+#include "driver.hh"
 
 void print_help() {
   std::cout << "Usage: " << PROJECT_EXECUTABLE << " [options]\n";
@@ -19,9 +20,9 @@ void print_help() {
             << std::endl;
 }
 
-int parse(nd::ExpressionDriver& driver, std::istream& input_stream) {
-  if (!driver.parse(input_stream)) {
-    std::cout << driver.tree << '\n';
+int parse(driver& drv, std::istream& input_stream) {
+  if (!drv.parse(input_stream)) {
+    std::cout << drv.result << '\n';
     return EXIT_SUCCESS;
   }
   else {
@@ -30,10 +31,10 @@ int parse(nd::ExpressionDriver& driver, std::istream& input_stream) {
 }
 
 int main(int argc, char const *argv[]) {
-  nd::ExpressionDriver driver;
+  driver drv;
   if (1 == argc) {
     std::string input;
-    return parse(driver, std::cin);
+    return parse(drv, std::cin);
   }
   if (2 == argc) {
     if (0 == std::strncmp(argv[1], "-h", 2)) {
@@ -46,7 +47,7 @@ int main(int argc, char const *argv[]) {
         std::getline(std::cin, line);
         stream.clear();
         stream << line;
-        parse(driver, stream);
+        parse(drv, stream);
       }
     } else if (0 == std::strncmp(argv[1], "-V", 2)) {
       std::cout << PROJECT_EXECUTABLE << " version " << PROJECT_VERSION << std::endl;
@@ -57,10 +58,11 @@ int main(int argc, char const *argv[]) {
     }
   } else if (3 == argc && 0 == std::strncmp(argv[1], "-f", 2)) {
     std::cout << "Reading file: " << argv[2] << std::endl;
-    if (condition) {
-    
+    std::ifstream input_file (argv[2]);
+    if (!input_file.good()) {
+      return EXIT_FAILURE;
     }
-    return EXIT_SUCCESS;
+    return parse(drv, input_file);
   } else {
     print_help();
     return EXIT_FAILURE;

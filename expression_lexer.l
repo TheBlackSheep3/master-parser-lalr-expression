@@ -4,14 +4,17 @@
 %option nodefault
 
 %{
+#include <cerrno>
+#include <climits>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 
 #include "expression_scanner.hpp"
 #undef YY_DECL
-#define YY_DECL int nd::ExpressionScanner::yylex(nd::ExpressionParser::semantic_type * const lval, nd::ExpressionParser::location_type * loc)
 
 #include "expression_parser.tab.hpp"
+#include "expression_driver.hpp"
 %}
 
 %%
