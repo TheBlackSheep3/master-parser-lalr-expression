@@ -7,11 +7,11 @@
 #include <cstdlib>
 #include <string>
 
-#include "expression_scanner.hpp"
+#include "expression_lexer.hpp"
 #undef YY_DECL
-#define YY_DECL int nd::ExpressionScanner::yylex(nd::ExpressionParser::semantic_type * const lval, nd::ExpressionParser::location_type * loc)
+#define YY_DECL int nd::ExpressionLexer::yylex(nd::ExpressionParser::semantic_type * const lval, nd::ExpressionParser::location_type * loc)
 
-#include "expression_parser.tab.hpp"
+#include "expression_parser.hpp"
 %}
 
 %%

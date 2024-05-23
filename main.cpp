@@ -1,12 +1,12 @@
 #include <cstdlib>
 #include <cstring>
+#include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <fstream>
 
 #include "config.hpp"
-#include "mc_driver.hpp"
+#include "expression_driver.hpp"
 
 void print_help() {
   std::cout << "Usage: " << PROJECT_EXECUTABLE << " [options]\n";
@@ -20,13 +20,13 @@ void print_help() {
             << std::endl;
 }
 
-void foo(MC::MC_Driver& driver, std::istream& stream) {
+void foo(nd::ExpressionDriver &driver, std::istream &stream) {
   driver.parse(stream);
-  driver.print(std::cout);
 }
 
+using namespace std::chrono_literals;
 int main(int argc, char const *argv[]) {
-  MC::MC_Driver driver;
+  nd::ExpressionDriver driver;
   if (1 == argc) {
     foo(driver, std::cin);
     return EXIT_SUCCESS;
@@ -44,7 +44,8 @@ int main(int argc, char const *argv[]) {
         foo(driver, strstream);
       }
     } else if (0 == std::strncmp(argv[1], "-V", 2)) {
-      std::cout << PROJECT_EXECUTABLE << " version " << PROJECT_VERSION << std::endl;
+      std::cout << PROJECT_EXECUTABLE << " version " << PROJECT_VERSION
+                << std::endl;
       return EXIT_SUCCESS;
     } else {
       print_help();
@@ -54,8 +55,7 @@ int main(int argc, char const *argv[]) {
     std::ifstream in_file(argv[2]);
     if (!in_file.good()) {
       return EXIT_FAILURE;
-    }
-    else {
+    } else {
       foo(driver, in_file);
       return EXIT_SUCCESS;
     }

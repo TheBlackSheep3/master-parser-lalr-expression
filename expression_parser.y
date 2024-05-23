@@ -5,14 +5,27 @@
 %define api.parser.class {ExpressionParser}
 %code requires {
 	namespace nd {
-		class ExpressionScanner;
+		class ExpressionDriver;
+		class ExpressionLexer;
 	}
 }
 
-%parse-param { ExpressionScanner& scanner }
+%parse-param { ExpressionLexer & lexer }
+%parse-param { ExpressionDriver & driver }
 
 %define api.value.type variant
 %define parse.assert
+
+%code{
+	#include <iostream>
+	#include <cstdlib>
+	#include <fstream>
+
+	#include "expression_driver.hpp"
+
+#undef yylex
+#define yylex lexer.yylex
+}
 
 %token <std::string>	ID
 %token <int>					LIT
@@ -20,6 +33,8 @@
 %token								OP_TIMES
 %token								PAREN_OP
 %token								PAREN_CL
+
+%locations
 
 %%
 expression

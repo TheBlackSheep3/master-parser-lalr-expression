@@ -11,20 +11,28 @@ configure_file(config.hpp.in config.hpp)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
-BISON_TARGET(mc_parser
-             simple_wc_mc_parser.yy
-             ${CMAKE_CURRENT_BINARY_DIR}/mc_parser.tab.cc)
-FLEX_TARGET(mc_lexer
-            simple_wc_mc_lexer.l
-            ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
-ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
+# BISON_TARGET(mc_parser
+#              simple_wc_mc_parser.yy
+#              ${CMAKE_CURRENT_BINARY_DIR}/mc_parser.tab.cc)
+# FLEX_TARGET(mc_lexer
+#             simple_wc_mc_lexer.l
+#             ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
+# ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
+BISON_TARGET(expression_parser
+            expression_parser.y
+            ${CMAKE_CURRENT_BINARY_DIR}/expression_parser.cpp)
+FLEX_TARGET(expression_lexer
+            expression_lexer.l
+            ${CMAKE_CURRENT_BINARY_DIR}/expression_lexer.cpp)
 
 add_executable(${EXECUTABLE_NAME}
     main.cpp
-    mc_driver.cpp
+    expression_driver.cpp
 
-    ${FLEX_mc_lexer_OUTPUTS}
-    ${BISON_mc_parser_OUTPUTS}
+    # ${FLEX_mc_lexer_OUTPUTS}
+    # ${BISON_mc_parser_OUTPUTS}
+    ${FLEX_expression_lexer_OUTPUTS}
+    ${BISON_expression_parser_OUTPUTS}
 )
 target_include_directories(${EXECUTABLE_NAME}
     PRIVATE
