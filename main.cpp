@@ -1,9 +1,12 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <sstream>
 #include <string>
+#include <fstream>
 
 #include "config.hpp"
+#include "mc_driver.hpp"
 
 void print_help() {
   std::cout << "Usage: " << PROJECT_EXECUTABLE << " [options]\n";
@@ -17,12 +20,15 @@ void print_help() {
             << std::endl;
 }
 
+void foo(MC::MC_Driver& driver, std::istream& stream) {
+  driver.parse(stream);
+  driver.print(std::cout);
+}
+
 int main(int argc, char const *argv[]) {
+  MC::MC_Driver driver;
   if (1 == argc) {
-    std::string input;
-    std::cin >> input;
-    std::cout << "Read from standard input:\n";
-    std::cout << input << std::endl;
+    foo(driver, std::cin);
     return EXIT_SUCCESS;
   }
   if (2 == argc) {
@@ -32,8 +38,10 @@ int main(int argc, char const *argv[]) {
     } else if (0 == std::strncmp(argv[1], "-i", 2)) {
       std::string line;
       while (true) {
+        std::stringstream strstream;
         std::getline(std::cin, line);
-        std::cout << line << std::endl;
+        strstream << line;
+        foo(driver, strstream);
       }
     } else if (0 == std::strncmp(argv[1], "-V", 2)) {
       std::cout << PROJECT_EXECUTABLE << " version " << PROJECT_VERSION << std::endl;
@@ -43,8 +51,14 @@ int main(int argc, char const *argv[]) {
       return EXIT_FAILURE;
     }
   } else if (3 == argc && 0 == std::strncmp(argv[1], "-f", 2)) {
-    std::cout << "Reading file: " << argv[2] << std::endl;
-    return EXIT_SUCCESS;
+    std::ifstream in_file(argv[2]);
+    if (!in_file.good()) {
+      return EXIT_FAILURE;
+    }
+    else {
+      foo(driver, in_file);
+      return EXIT_SUCCESS;
+    }
   } else {
     print_help();
     return EXIT_FAILURE;

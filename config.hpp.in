@@ -1,2 +1,2 @@
-#define PROJECT_VERSION "@Parser_LALR_Expression_VERSION@"
+#define PROJECT_VERSION "@something_VERSION@"
 #define PROJECT_EXECUTABLE "@EXECUTABLE_NAME@"
