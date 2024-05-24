@@ -5,11 +5,6 @@
 #include <memory>
 #include <new>
 
-nd::ExpressionDriver::~ExpressionDriver() {
-  lexer.reset();
-  parser.reset();
-}
-
 void nd::ExpressionDriver::parse(std::istream &stream) {
   if (!stream.good() || stream.eof()) {
     return;
