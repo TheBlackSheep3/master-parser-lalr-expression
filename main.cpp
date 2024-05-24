@@ -20,13 +20,12 @@ void print_help() {
             << std::endl;
 }
 
-void foo(nd::ExpressionDriver &driver, std::istream &stream) {
+void foo(nd::Expression::Driver &driver, std::istream &stream) {
   driver.parse(stream);
 }
 
-using namespace std::chrono_literals;
 int main(int argc, char const *argv[]) {
-  nd::ExpressionDriver driver;
+  nd::Expression::Driver driver;
   if (1 == argc) {
     foo(driver, std::cin);
     return EXIT_SUCCESS;

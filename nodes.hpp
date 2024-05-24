@@ -3,14 +3,13 @@
 #include <memory>
 #include <ostream>
 
+namespace nd::Expression::Tree {
 class Node {
 public:
   virtual ~Node() = default;
 
   virtual std::string get_string() const = 0;
 };
-
-std::ostream &operator<<(std::ostream &ostream, Node const &printable);
 
 class Expression : public Node {
 public:
@@ -107,3 +106,7 @@ public:
 private:
   std::unique_ptr<Expression> m_exp;
 };
+} // namespace nd::Expression::Tree
+
+std::ostream &operator<<(std::ostream &ostream,
+                         nd::Expression::Tree::Node const &printable);

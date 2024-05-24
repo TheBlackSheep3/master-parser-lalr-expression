@@ -5,19 +5,19 @@
 #include <memory>
 #include <new>
 
-void nd::ExpressionDriver::parse(std::istream &stream) {
+void nd::Expression::Driver::parse(std::istream &stream) {
   if (!stream.good() || stream.eof()) {
     return;
   }
   try {
-    lexer = std::make_unique<nd::ExpressionLexer>(&stream);
+    lexer = std::make_unique<nd::Expression::Lexer>(&stream);
   } catch (std::bad_alloc &ba) {
     std::cerr << "Failed to allocate lexer: (" << ba.what() << "), exiting!\n";
     std::exit(EXIT_FAILURE);
   }
 
   try {
-    parser = std::make_unique<nd::ExpressionParser>(*lexer, *this);
+    parser = std::make_unique<nd::Expression::Parser>(*lexer, *this);
   } catch (std::bad_alloc &ba) {
     std::cerr << "Failed to allocate parser: (" << ba.what() << "), exiting!\n";
     std::exit(EXIT_FAILURE);

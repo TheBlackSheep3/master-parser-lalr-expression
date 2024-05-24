@@ -1,17 +1,17 @@
 %skeleton "lalr1.cc"
 %require	"3.0"
 %defines
-%define api.namespace {nd}
-%define api.parser.class {ExpressionParser}
+%define api.namespace {nd::Expression}
+%define api.parser.class {Parser}
 %code requires {
-	namespace nd {
-		class ExpressionDriver;
-		class ExpressionLexer;
+	namespace nd::Expression {
+		class Driver;
+		class Lexer;
 	}
 }
 
-%parse-param { ExpressionLexer & lexer }
-%parse-param { ExpressionDriver & driver }
+%parse-param { Lexer & lexer }
+%parse-param { Driver & driver }
 
 %define api.value.type variant
 %define parse.assert
@@ -54,6 +54,6 @@ factor
 	;
 %%
 
-void nd::ExpressionParser::error(location_type const& loc, std::string const& err_message) {
+void nd::Expression::Parser::error(location_type const& loc, std::string const& err_message) {
 	std::cerr << "Error: " << err_message << " at " << loc << "\n";
 }

@@ -8,21 +8,21 @@
 #include "expression_parser.hpp"
 #include "location.hh"
 
-namespace nd {
-class ExpressionLexer : public yyFlexLexer {
+namespace nd::Expression {
+class Lexer : public yyFlexLexer {
 public:
-  ExpressionLexer(std::istream *in) : yyFlexLexer(in) {}
-  ExpressionLexer(ExpressionLexer const &other) = delete;
-  ExpressionLexer(ExpressionLexer &&other) = delete;
-  ExpressionLexer &operator=(ExpressionLexer const &other) = delete;
-  ExpressionLexer &operator=(ExpressionLexer &&other) = delete;
-  virtual ~ExpressionLexer() = default;
+  Lexer(std::istream *in) : yyFlexLexer(in) {}
+  Lexer(Lexer const &other) = delete;
+  Lexer(Lexer &&other) = delete;
+  Lexer &operator=(Lexer const &other) = delete;
+  Lexer &operator=(Lexer &&other) = delete;
+  virtual ~Lexer() = default;
 
   using FlexLexer::yylex;
-  virtual int yylex(nd::ExpressionParser::semantic_type *const lval,
-                    nd::ExpressionParser::location_type *location);
+  virtual int yylex(nd::Expression::Parser::semantic_type *const lval,
+                    nd::Expression::Parser::location_type *location);
 
 private:
-  nd::ExpressionParser::semantic_type *yylval = nullptr;
+  nd::Expression::Parser::semantic_type *yylval = nullptr;
 };
-} // namespace nd
+} // namespace nd::Expression
