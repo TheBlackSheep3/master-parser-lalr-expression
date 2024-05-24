@@ -41,6 +41,9 @@ target_include_directories(${EXECUTABLE_NAME}
         ${CMAKE_CURRENT_BINARY_DIR})
 set_property(TARGET my_wc
              PROPERTY CXX_STANDARD 14)
+add_library(nodes OBJECT nodes.cpp)
+add_executable(foo foo.cpp)
+target_link_libraries(foo nodes)
 
 enable_testing()
 add_test(NAME basic
