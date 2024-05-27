@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(EXECUTABLE_NAME my_wc)
 configure_file(config.hpp.in config.hpp)
 
-find_package(BISON REQUIRED)
-find_package(FLEX REQUIRED)
+# find_package(BISON REQUIRED)
+# find_package(FLEX REQUIRED)
 
 # BISON_TARGET(mc_parser
 #              simple_wc_mc_parser.yy
@@ -18,32 +18,27 @@ find_package(FLEX REQUIRED)
 #             simple_wc_mc_lexer.l
 #             ${CMAKE_CURRENT_BINARY_DIR}/mc_lexer.yy.cc)
 # ADD_FLEX_BISON_DEPENDENCY(mc_lexer mc_parser)
-BISON_TARGET(expression_parser
-            expression_parser.y
-            ${CMAKE_CURRENT_BINARY_DIR}/expression_parser.cpp)
-FLEX_TARGET(expression_lexer
-            expression_lexer.l
-            ${CMAKE_CURRENT_BINARY_DIR}/expression_lexer.cpp)
+# BISON_TARGET(expression_parser
+#             expression_parser.y
+#             ${CMAKE_CURRENT_BINARY_DIR}/expression_parser.cpp)
+# FLEX_TARGET(expression_lexer
+#             expression_lexer.l
+#             ${CMAKE_CURRENT_BINARY_DIR}/expression_lexer.cpp)
 
-add_executable(${EXECUTABLE_NAME}
-    main.cpp
-    expression_driver.cpp
-
-    # ${FLEX_mc_lexer_OUTPUTS}
-    # ${BISON_mc_parser_OUTPUTS}
-    ${FLEX_expression_lexer_OUTPUTS}
-    ${BISON_expression_parser_OUTPUTS}
-)
-target_include_directories(${EXECUTABLE_NAME}
-    PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        #${FLEX_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_BINARY_DIR})
+# add_executable(${EXECUTABLE_NAME}
+#     main.cpp
+#     expression_driver.cpp
+#
+#     # ${FLEX_mc_lexer_OUTPUTS}
+#     # ${BISON_mc_parser_OUTPUTS}
+#     ${FLEX_expression_lexer_OUTPUTS}
+#     ${BISON_expression_parser_OUTPUTS}
+# )
+# target_include_directories(${EXECUTABLE_NAME}
+#     PRIVATE
+#         ${CMAKE_CURRENT_SOURCE_DIR}
+#         #${FLEX_INCLUDE_DIRS}
+#         ${CMAKE_CURRENT_BINARY_DIR})
 add_library(nodes OBJECT nodes.cpp)
 add_executable(foo foo.cpp)
 target_link_libraries(foo nodes)
-
-enable_testing()
-add_test(NAME basic
-         COMMAND ${CMAKE_SOURCE_DIR}/test/test0.pl
-         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})

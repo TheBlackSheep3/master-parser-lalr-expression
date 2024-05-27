@@ -87,7 +87,7 @@ private:
 
 class Identifier : public Factor {
 public:
-  Identifier(std::string &id) : m_id(id) {}
+  Identifier(std::string id) : m_id(id) {}
   virtual ~Identifier() = default;
 
   std::string get_string() const override;
