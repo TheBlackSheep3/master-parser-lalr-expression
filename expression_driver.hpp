@@ -7,25 +7,25 @@
 
 namespace nd::Expression {
 class Driver {
-public:
+ public:
   Driver() = default;
-  Driver(Driver const &other) = delete;
-  Driver(Driver &&other) {
+  Driver(Driver const& other) = delete;
+  Driver(Driver&& other) {
     parser.swap(other.parser);
     lexer.swap(other.lexer);
   }
-  Driver &operator=(Driver const &other) = delete;
-  Driver &operator=(Driver &&other) {
+  Driver& operator=(Driver const& other) = delete;
+  Driver& operator=(Driver&& other) {
     parser.swap(other.parser);
     lexer.swap(other.lexer);
     return *this;
   }
   virtual ~Driver() = default;
 
-  void parse(std::istream &input_stream);
+  void parse(std::istream& input_stream);
 
-private:
+ private:
   std::unique_ptr<nd::Expression::Parser> parser;
   std::unique_ptr<nd::Expression::Lexer> lexer;
 };
-} // namespace nd::Expression
+}  // namespace nd::Expression

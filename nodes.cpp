@@ -1,8 +1,9 @@
-#include "nodes.hpp"
 #include <string>
 
-std::ostream &operator<<(std::ostream &ostream,
-                         nd::Expression::Tree::Node const &printable) {
+#include "nodes.hpp"
+
+std::ostream& operator<<(std::ostream& ostream,
+                         nd::Expression::Tree::Node const& printable) {
   ostream << printable.get_string();
   return ostream;
 }

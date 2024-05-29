@@ -20,11 +20,11 @@ void print_help() {
             << std::endl;
 }
 
-void foo(nd::Expression::Driver &driver, std::istream &stream) {
+void foo(nd::Expression::Driver& driver, std::istream& stream) {
   driver.parse(stream);
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const* argv[]) {
   nd::Expression::Driver driver;
   if (1 == argc) {
     foo(driver, std::cin);
