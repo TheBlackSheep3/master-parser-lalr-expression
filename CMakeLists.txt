@@ -26,6 +26,7 @@ FLEX_TARGET(expression_lexer
             ${CMAKE_CURRENT_BINARY_DIR}/expression_lexer.cpp)
 ADD_FLEX_BISON_DEPENDENCY(expression_lexer expression_parser)
 
+add_library(nodes OBJECT nodes.cpp)
 add_executable(${EXECUTABLE_NAME}
     main.cpp
     expression_driver.cpp
@@ -40,6 +41,6 @@ target_include_directories(${EXECUTABLE_NAME}
         ${CMAKE_CURRENT_SOURCE_DIR}
         #${FLEX_INCLUDE_DIRS}
         ${CMAKE_CURRENT_BINARY_DIR})
-add_library(nodes OBJECT nodes.cpp)
+target_link_libraries(${EXECUTABLE_NAME} nodes)
 add_executable(foo foo.cpp)
 target_link_libraries(foo nodes)
